@@ -296,7 +296,7 @@ class Builder extends QueryBuilder
             if (!$callback instanceof \Closure) {
                 throw new \Exception("Not Facet");
             }
-            $facet = Facet::create($this->getConnection()->getSphinxQLDriversConnection());
+            $facet = new Facet($this->getConnection()->getSphinxQLDriversConnection());
             $callback($facet);
         } else {
             $facet = $callback;
