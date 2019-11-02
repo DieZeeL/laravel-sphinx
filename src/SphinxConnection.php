@@ -109,6 +109,16 @@ class SphinxConnection extends MySqlConnection
     }
 
     /**
+     * Get the default post processor instance.
+     *
+     * @return \Illuminate\Database\Query\Processors\MySqlProcessor
+     */
+    protected function getDefaultPostProcessor()
+    {
+        return new \DieZeeL\Database\SphinxConnection\Query\SphinxProcessor;
+    }
+
+    /**
      * Get a new query builder instance.
      *
      * @return \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder
@@ -120,5 +130,18 @@ class SphinxConnection extends MySqlConnection
             $this->getQueryGrammar(),
             $this->getPostProcessor()
         );
+    }
+
+    /**
+     * Set the table prefix and return the grammar.
+     *
+     * @param  \DieZeeL\Database\SphinxConnection\Schema\SphinxGrammar  $grammar
+     * @return \DieZeeL\Database\SphinxConnection\Schema\SphinxGrammar
+     */
+    public function withTablePrefix($grammar)
+    {
+        $grammar->setTablePrefix($this->tablePrefix);
+
+        return $grammar;
     }
 }

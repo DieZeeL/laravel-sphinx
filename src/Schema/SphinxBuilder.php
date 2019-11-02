@@ -25,39 +25,7 @@ class SphinxBuilder extends Builder
         )) > 0;
     }
 
-    /**
-     * Determine if the given table has a given column.
-     *
-     * @param  string  $table
-     * @param  string  $column
-     * @return bool
-     */
-    public function hasColumn($table, $column)
-    {
-        return in_array(
-            strtolower($column), array_map('strtolower', $this->getColumnListing($table))
-        );
-    }
 
-    /**
-     * Determine if the given table has given columns.
-     *
-     * @param  string  $table
-     * @param  array   $columns
-     * @return bool
-     */
-    public function hasColumns($table, array $columns)
-    {
-        $tableColumns = array_map('strtolower', $this->getColumnListing($table));
-
-        foreach ($columns as $column) {
-            if (! in_array(strtolower($column), $tableColumns)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     /**
      * Get the data type for the given column name.
@@ -69,8 +37,10 @@ class SphinxBuilder extends Builder
     public function getColumnType($table, $column)
     {
         $table = $this->connection->getTablePrefix().$table;
-
-        return $this->connection->getDoctrineColumn($table, $column)->getType()->getName();
+        $results = $this->connection->select(
+            $this->grammar->compileColumnListing($table)
+        );
+        return $this->connection->getPostProcessor()->processColumnType($results, $column);
     }
 
     /**
@@ -84,7 +54,7 @@ class SphinxBuilder extends Builder
         $table = $this->connection->getTablePrefix().$table;
 
         $results = $this->connection->select(
-            $this->grammar->compileColumnListing(), [$this->connection->getDatabaseName(), $table]
+            $this->grammar->compileColumnListing($table)
         );
 
         return $this->connection->getPostProcessor()->processColumnListing($results);
@@ -209,17 +179,7 @@ class SphinxBuilder extends Builder
     {
         throw new LogicException('This database driver does not support disable foreign key constants.');
     }
-
-    /**
-     * Execute the blueprint to build / modify the table.
-     *
-     * @param  Blueprint  $blueprint
-     * @return void
-     */
-    protected function build($blueprint)
-    {
-        $blueprint->build($this->connection, $this->grammar);
-    }
+    
 
     /**
      * Create a new command set with a Closure.
