@@ -2,6 +2,8 @@
 
 namespace DieZeeL\Database\SphinxConnection\Schema;
 
+use Illuminate\Database\Schema\Builder;
+
 class SphinxBuilder extends Builder
 {
     /**
