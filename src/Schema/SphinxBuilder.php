@@ -216,7 +216,7 @@ class SphinxBuilder extends Builder
      * @param  Blueprint  $blueprint
      * @return void
      */
-    protected function build(Blueprint $blueprint)
+    protected function build($blueprint)
     {
         $blueprint->build($this->connection, $this->grammar);
     }

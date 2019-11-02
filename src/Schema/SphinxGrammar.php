@@ -2,11 +2,11 @@
 
 namespace DieZeeL\Database\SphinxConnection\Schema;
 
+use DieZeeL\Database\SphinxConnection\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\Grammar;
 use RuntimeException;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Blueprint;
 
 class SphinxGrammar extends Grammar
 {
@@ -17,7 +17,7 @@ class SphinxGrammar extends Grammar
      */
     protected $modifiers = [
     ];
-
+    
     /**
      * The possible column serials.
      *
@@ -150,7 +150,7 @@ class SphinxGrammar extends Grammar
      */
     public function compileAdd(Blueprint $blueprint, Fluent $command)
     {
-        $columns = $this->prefixArray('add column', $this->getColumns($blueprint));
+        $columns = $this->prefixArray('add column', $this->getCommandColumns($command));
 
         return 'alter table '.$this->wrapTable($blueprint).' '.implode(', ', $columns);
     }
@@ -421,6 +421,49 @@ class SphinxGrammar extends Grammar
     }
 
     /**
+     * Compile the blueprint's column definitions.
+     *
+     * @param  Blueprint $blueprint
+     * @return array
+     */
+    protected function getCommandColumns($command)
+    {
+        $columns = [];
+
+        foreach ($command->columns as $column) {
+            // Each of the column types have their own compiler functions which are tasked
+            // with turning the column definition into its SQL format for this platform
+            // used by the connection. The column's modifiers are compiled and added.
+            $sql = $this->wrap($column).' '.$this->getType($column);
+
+            $columns[] = $sql;
+        }
+
+        return $columns;
+    }
+    /**
+     * Compile the blueprint's column definitions.
+     *
+     * @param  Blueprint $blueprint
+     * @return array
+     */
+    protected function getColumns($blueprint)
+    {
+        $columns = [];
+
+        foreach ($blueprint->getAddedColumns() as $column) {
+            // Each of the column types have their own compiler functions which are tasked
+            // with turning the column definition into its SQL format for this platform
+            // used by the connection. The column's modifiers are compiled and added.
+            $sql = $this->wrap($column).' '.$this->getType($column);
+
+            $columns[] = $sql;
+        }
+
+        return $columns;
+    }
+
+    /**
      * Create the column definition for a char type.
      *
      * @param  \Illuminate\Support\Fluent  $column
@@ -450,7 +493,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeText(Fluent $column)
     {
-        return 'text';
+        return 'STRING';
     }
 
     /**
@@ -461,7 +504,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeMediumText(Fluent $column)
     {
-        return 'mediumtext';
+        return 'STRING';
     }
 
     /**
@@ -472,7 +515,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeLongText(Fluent $column)
     {
-        return 'longtext';
+        return 'STRING';
     }
 
     /**
@@ -483,7 +526,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeBigInteger(Fluent $column)
     {
-        return 'BIGINT';
+        return 'INTEGER';
     }
 
     /**
@@ -494,7 +537,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeInteger(Fluent $column)
     {
-        return 'INT';
+        return 'INTEGER';
     }
 
     /**
@@ -505,7 +548,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeMediumInteger(Fluent $column)
     {
-        return 'BIGINT';
+        return 'INTEGER';
     }
 
     /**
@@ -516,7 +559,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeTinyInteger(Fluent $column)
     {
-        return 'INT';
+        return 'INTEGER';
     }
 
     /**
@@ -527,7 +570,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeSmallInteger(Fluent $column)
     {
-        return 'INT';
+        return 'INTEGER';
     }
 
     /**
@@ -560,7 +603,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeDecimal(Fluent $column)
     {
-        return "FLOAT";
+        return "STRING";
     }
 
     /**
@@ -571,18 +614,7 @@ class SphinxGrammar extends Grammar
      */
     protected function typeBoolean(Fluent $column)
     {
-        return 'INT';
-    }
-
-    /**
-     * Create the column definition for an enumeration type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeEnum(Fluent $column)
-    {
-        return false;
+        return 'BOOL';
     }
 
     /**
@@ -591,9 +623,20 @@ class SphinxGrammar extends Grammar
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    protected function typeSet(Fluent $column)
+    protected function typeMulti(Fluent $column)
     {
         return "MULTI";
+    }
+
+    /**
+     * Create the column definition for a set enumeration type.
+     *
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string
+     */
+    protected function typeMulti64(Fluent $column)
+    {
+        return "MULTI64";
     }
 
     /**
@@ -617,17 +660,7 @@ class SphinxGrammar extends Grammar
     {
         return 'JSON';
     }
-
-    /**
-     * Create the column definition for a date type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeDate(Fluent $column)
-    {
-        return 'TIMESTAMP';
-    }
+    
 
     /**
      * Create the column definition for a date-time type.
@@ -650,28 +683,7 @@ class SphinxGrammar extends Grammar
     {
         return $this->typeDateTime($column);
     }
-
-    /**
-     * Create the column definition for a time type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeTime(Fluent $column)
-    {
-        return 'TIMESTAMP';
-    }
-
-    /**
-     * Create the column definition for a time (with time zone) type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeTimeTz(Fluent $column)
-    {
-        return $this->typeTime($column);
-    }
+    
 
     /**
      * Create the column definition for a timestamp type.
@@ -694,28 +706,7 @@ class SphinxGrammar extends Grammar
     {
         return $this->typeTimestamp($column);
     }
-
-    /**
-     * Create the column definition for a year type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeYear(Fluent $column)
-    {
-        return 'STRING';
-    }
-
-    /**
-     * Create the column definition for a binary type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeBinary(Fluent $column)
-    {
-        return 'STRING';
-    }
+    
 
     /**
      * Create the column definition for a uuid type.
@@ -758,7 +749,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeGeometry(Fluent $column)
     {
-        return 'FLOAT';
+        return 'JSON';
     }
 
     /**
@@ -769,7 +760,7 @@ class SphinxGrammar extends Grammar
      */
     public function typePoint(Fluent $column)
     {
-        return 'FLOAT';
+        return 'JSON';
     }
 
     /**
@@ -852,170 +843,6 @@ class SphinxGrammar extends Grammar
     }
 
     /**
-     * Get the SQL for a generated virtual column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyVirtualAs(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->virtualAs)) {
-            return " as ({$column->virtualAs})";
-        }
-    }
-
-    /**
-     * Get the SQL for a generated stored column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyStoredAs(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->storedAs)) {
-            return " as ({$column->storedAs}) stored";
-        }
-    }
-
-    /**
-     * Get the SQL for an unsigned column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyUnsigned(Blueprint $blueprint, Fluent $column)
-    {
-        if ($column->unsigned) {
-            return '';
-        }
-    }
-
-    /**
-     * Get the SQL for a character set column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyCharset(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->charset)) {
-            return '';
-        }
-    }
-
-    /**
-     * Get the SQL for a collation column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyCollate(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->collation)) {
-            return "";
-        }
-    }
-
-    /**
-     * Get the SQL for a nullable column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyNullable(Blueprint $blueprint, Fluent $column)
-    {
-            return '';
-    }
-
-    /**
-     * Get the SQL for a default column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyDefault(Blueprint $blueprint, Fluent $column)
-    {
-        return "";
-    }
-
-    /**
-     * Get the SQL for an auto-increment column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
-    {
-        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return '';
-        }
-    }
-
-    /**
-     * Get the SQL for a "first" column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyFirst(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->first)) {
-            return ' ';
-        }
-    }
-
-    /**
-     * Get the SQL for an "after" column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyAfter(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->after)) {
-            return '';
-        }
-    }
-
-    /**
-     * Get the SQL for a "comment" column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifyComment(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->comment)) {
-            return "";
-        }
-    }
-
-    /**
-     * Get the SQL for a SRID column modifier.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string|null
-     */
-    protected function modifySrid(Blueprint $blueprint, Fluent $column)
-    {
-        if (! is_null($column->srid) && is_int($column->srid) && $column->srid > 0) {
-            return ' srid '.$column->srid;
-        }
-    }
-
-    /**
      * Wrap a single string in keyword identifiers.
      *
      * @param  string  $value
@@ -1028,5 +855,18 @@ class SphinxGrammar extends Grammar
         }
 
         return $value;
+    }
+
+    /**
+     * Wrap a table in keyword identifiers.
+     *
+     * @param  mixed   $table
+     * @return string
+     */
+    public function wrapTable($table)
+    {
+        return parent::wrapTable(
+            $table instanceof Blueprint ? $table->getTable() : $table
+        );
     }
 }

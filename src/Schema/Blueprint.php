@@ -173,47 +173,18 @@ class Blueprint //extends IlluminateBlueprint
      */
     protected function addImpliedCommands(Grammar $grammar)
     {
-        if (count($this->getAddedColumns()) > 0 && !$this->creating()) {
-            array_unshift($this->commands, $this->createCommand('add'));
+        if (count($this->getAddedColumns()) > 0) {
+            foreach ($this->columns as $column) {
+                $this->addCommand(
+                    'add', ['columns' => [$column]]
+                );
+            }
+            //array_unshift($this->commands, $this->createCommand('add'));
         }
 
-        if (count($this->getChangedColumns()) > 0 && !$this->creating()) {
-            array_unshift($this->commands, $this->createCommand('change'));
-        }
-
-        $this->addFluentIndexes();
+        //$this->addFluentIndexes();
 
         $this->addFluentCommands($grammar);
-    }
-
-    /**
-     * Add the index commands fluently specified on columns.
-     * @return void
-     * @todo refactor!
-     */
-    protected function addFluentIndexes()
-    {
-        foreach ($this->columns as $column) {
-            foreach (['primary', 'unique', 'index', 'spatialIndex'] as $index) {
-                // If the index has been specified on the given column, but is simply equal
-                // to "true" (boolean), no name has been specified for this index so the
-                // index method can be called without a name and it will generate one.
-                if ($column->{$index} === true) {
-                    $this->{$index}($column->name);
-
-                    continue 2;
-                }
-
-                // If the index has been specified on the given column, and it has a string
-                // value, we'll go ahead and call the index method and pass the name for
-                // the index since the developer specified the explicit name for this.
-                elseif (isset($column->{$index})) {
-                    $this->{$index}($column->name, $column->{$index});
-
-                    continue 2;
-                }
-            }
-        }
     }
 
     /**
@@ -241,6 +212,7 @@ class Blueprint //extends IlluminateBlueprint
         }
     }
 
+    
     /**
      * Indicate that the given columns should be dropped.
      *
@@ -307,7 +279,7 @@ class Blueprint //extends IlluminateBlueprint
     {
         $length = $length ?: Builder::$defaultStringLength;
 
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('char', $column);
     }
 
     /**
@@ -318,7 +290,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function string($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('string', $column);
     }
 
     /**
@@ -329,7 +301,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function text($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('text', $column);
     }
 
     /**
@@ -342,7 +314,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function integer($column)
     {
-        return $this->addColumn('INTEGER', $column);
+        return $this->addColumn('integer', $column);
     }
 
     /**
@@ -364,7 +336,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function float($column)
     {
-        return $this->addColumn('FLOAT', $column);
+        return $this->addColumn('float', $column);
     }
 
     /**
@@ -388,7 +360,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function decimal($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('decimal', $column);
     }
 
     /**
@@ -410,7 +382,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function boolean($column)
     {
-        return $this->addColumn('BOOL', $column);
+        return $this->addColumn('boolean', $column);
     }
 
     /**
@@ -422,7 +394,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function set($column, $unsigned = true)
     {
-        return $this->addColumn($unsigned ? 'MULTI' : 'MULTI64', $column);
+        return $this->addColumn($unsigned ? 'multi' : 'multi64', $column);
     }
 
     /**
@@ -433,7 +405,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function json($column)
     {
-        return $this->addColumn('JSON', $column);
+        return $this->addColumn('json', $column);
     }
 
     /**
@@ -444,7 +416,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function jsonb($column)
     {
-        return $this->addColumn('JSON', $column);
+        return $this->addColumn('json', $column);
     }
 
     /**
@@ -477,7 +449,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function timestamp($column)
     {
-        return $this->addColumn('TIMESTAMP', $column);
+        return $this->addColumn('timestamp', $column);
     }
 
     /**
@@ -535,7 +507,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function softDeletes($column = '__soft_deleted')
     {
-        return $this->addColumn('BOOL', $column);
+        return $this->addColumn('boolean', $column);
     }
 
     /**
@@ -557,7 +529,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function uuid($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('uuid', $column);
     }
 
     /**
@@ -568,7 +540,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function ipAddress($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('ipAddress', $column);
     }
 
     /**
@@ -579,7 +551,7 @@ class Blueprint //extends IlluminateBlueprint
      */
     public function macAddress($column)
     {
-        return $this->addColumn('STRING', $column);
+        return $this->addColumn('macAddress', $column);
     }
 
     /**
