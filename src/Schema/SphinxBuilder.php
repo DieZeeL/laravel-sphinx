@@ -2,10 +2,14 @@
 
 namespace DieZeeL\Database\SphinxConnection\Schema;
 
+use Closure;
 use Illuminate\Database\Schema\Builder;
+use LogicException;
 
 class SphinxBuilder extends Builder
 {
+    
+
     /**
      * Determine if the given table exists.
      *
@@ -19,6 +23,54 @@ class SphinxBuilder extends Builder
         return count($this->connection->select(
             $this->grammar->compileTableExists(), [$this->connection->getDatabaseName(), $table]
         )) > 0;
+    }
+
+    /**
+     * Determine if the given table has a given column.
+     *
+     * @param  string  $table
+     * @param  string  $column
+     * @return bool
+     */
+    public function hasColumn($table, $column)
+    {
+        return in_array(
+            strtolower($column), array_map('strtolower', $this->getColumnListing($table))
+        );
+    }
+
+    /**
+     * Determine if the given table has given columns.
+     *
+     * @param  string  $table
+     * @param  array   $columns
+     * @return bool
+     */
+    public function hasColumns($table, array $columns)
+    {
+        $tableColumns = array_map('strtolower', $this->getColumnListing($table));
+
+        foreach ($columns as $column) {
+            if (! in_array(strtolower($column), $tableColumns)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the data type for the given column name.
+     *
+     * @param  string  $table
+     * @param  string  $column
+     * @return string
+     */
+    public function getColumnType($table, $column)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getDoctrineColumn($table, $column)->getType()->getName();
     }
 
     /**
@@ -39,55 +91,170 @@ class SphinxBuilder extends Builder
     }
 
     /**
+     * Modify a table on the schema.
+     *
+     * @param  string    $table
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public function table($table, Closure $callback)
+    {
+        $this->build($this->createBlueprint($table, $callback));
+    }
+
+    /**
+     * Create a new table on the schema.
+     *
+     * @param  string    $table
+     * @param  \Closure  $callback
+     * @return void
+     * @throws \LogicException
+     */
+    public function create($table, Closure $callback)
+    {
+        throw new LogicException('This database driver does not support create tables.');
+    }
+
+    /**
+     * Drop a table from the schema.
+     *
+     * @param  string  $table
+     * @return void
+     * @throws \LogicException
+     */
+    public function drop($table)
+    {
+        throw new LogicException('This database driver does not support dropping tables.');
+    }
+
+    /**
+     * Drop a table from the schema if it exists.
+     *
+     * @param  string  $table
+     * @return void
+     * @throws \LogicException
+     */
+    public function dropIfExists($table)
+    {
+        throw new LogicException('This database driver does not support dropping tables.');
+    }
+
+    /**
      * Drop all tables from the database.
      *
      * @return void
+     *
+     * @throws \LogicException
      */
     public function dropAllTables()
     {
-        $tables = [];
-
-        foreach ($this->getAllTables() as $row) {
-            $row = (array) $row;
-
-            $tables[] = reset($row);
-        }
-
-        if (empty($tables)) {
-            return;
-        }
-
-        $this->disableForeignKeyConstraints();
-
-        $this->connection->statement(
-            $this->grammar->compileDropAllTables($tables)
-        );
-
-        $this->enableForeignKeyConstraints();
+        throw new LogicException('This database driver does not support dropping all tables.');
     }
 
     /**
      * Drop all views from the database.
      *
      * @return void
+     *
+     * @throws \LogicException
      */
     public function dropAllViews()
     {
-        $views = [];
+        throw new LogicException('This database driver does not support dropping all views.');
+    }
 
-        foreach ($this->getAllViews() as $row) {
-            $row = (array) $row;
+    /**
+     * Drop all types from the database.
+     *
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function dropAllTypes()
+    {
+        throw new LogicException('This database driver does not support dropping all types.');
+    }
 
-            $views[] = reset($row);
+    /**
+     * Rename a table on the schema.
+     *
+     * @param  string  $from
+     * @param  string  $to
+     * @return void
+     * @throws \LogicException
+     */
+    public function rename($from, $to)
+    {
+        throw new LogicException('This database driver does not support rename tables.');
+    }
+
+    /**
+     * Enable foreign key constraints.
+     *
+     * @return bool
+     * @throws \LogicException
+     */
+    public function enableForeignKeyConstraints()
+    {
+        throw new LogicException('This database driver does not support enable foreign key constants.');
+    }
+
+    /**
+     * Disable foreign key constraints.
+     *
+     * @return bool
+     * @throws \LogicException
+     */
+    public function disableForeignKeyConstraints()
+    {
+        throw new LogicException('This database driver does not support disable foreign key constants.');
+    }
+
+    /**
+     * Execute the blueprint to build / modify the table.
+     *
+     * @param  Blueprint  $blueprint
+     * @return void
+     */
+    protected function build(Blueprint $blueprint)
+    {
+        $blueprint->build($this->connection, $this->grammar);
+    }
+
+    /**
+     * Create a new command set with a Closure.
+     *
+     * @param  string  $table
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Schema\Blueprint
+     */
+    protected function createBlueprint($table, Closure $callback = null)
+    {
+        $prefix = $this->connection->getConfig('prefix_indexes')
+            ? $this->connection->getConfig('prefix')
+            : '';
+
+        if (isset($this->resolver)) {
+            return call_user_func($this->resolver, $table, $callback, $prefix);
         }
 
-        if (empty($views)) {
-            return;
-        }
+        return new Blueprint($table, $callback, $prefix);
+    }
 
-        $this->connection->statement(
-            $this->grammar->compileDropAllViews($views)
-        );
+
+    /**
+     * Register a custom Doctrine mapping type.
+     *
+     * @param  string  $class
+     * @param  string  $name
+     * @param  string  $type
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function registerCustomDoctrineType($class, $name, $type)
+    {
+        throw new LogicException('This database driver does not support doctrine.');
     }
 
     /**
@@ -106,11 +273,14 @@ class SphinxBuilder extends Builder
      * Get all of the view names for the database.
      *
      * @return array
+     * @throws \LogicException
      */
     protected function getAllViews()
     {
-        return $this->connection->select(
-            $this->grammar->compileGetAllViews()
-        );
+        throw new LogicException('This database driver does not support views.');
     }
+
+
+
+
 }

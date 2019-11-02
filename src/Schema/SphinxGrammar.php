@@ -780,7 +780,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeLineString(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
@@ -791,7 +791,7 @@ class SphinxGrammar extends Grammar
      */
     public function typePolygon(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
@@ -802,7 +802,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeGeometryCollection(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
@@ -813,7 +813,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeMultiPoint(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
@@ -824,7 +824,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeMultiLineString(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
@@ -835,7 +835,7 @@ class SphinxGrammar extends Grammar
      */
     public function typeMultiPolygon(Fluent $column)
     {
-        return 'FLOAT';
+        throw new RuntimeException('This database driver requires a type, see the virtualAs / storedAs modifiers.');
     }
 
     /**
