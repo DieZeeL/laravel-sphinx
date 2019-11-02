@@ -20,6 +20,13 @@
         "laravel/framework": "The Laravel Framework",
         "prettus/l5-repository": "Repositories to  the database layer"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DieZeeL\\Database\\SphinxConnection\\SphinxServiceProvider"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "DieZeeL\\Database\\SphinxConnection\\": "src/"

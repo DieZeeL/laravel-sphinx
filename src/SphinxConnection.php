@@ -85,6 +85,30 @@ class SphinxConnection extends MySqlConnection
     }
 
     /**
+     * Get a schema builder instance for the connection.
+     *
+     * @return \DieZeeL\Database\SphinxConnection\Schema\SphinxBuilder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new \DieZeeL\Database\SphinxConnection\Schema\SphinxBuilder($this);
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     *
+     * @return \DieZeeL\Database\SphinxConnection\Schema\SphinxGrammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new \DieZeeL\Database\SphinxConnection\Schema\SphinxGrammar);
+    }
+
+    /**
      * Get a new query builder instance.
      *
      * @return \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder
