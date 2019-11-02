@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection\Eloquent\Query;
+namespace DieZeeL\Database\SphinxConnection\Eloquent\Query;
 
 use Foolz\SphinxQL\Facet;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -338,7 +338,7 @@ class Builder extends QueryBuilder
      */
 
     /**
-     * @return \Fobia\Database\SphinxConnection\SphinxConnection
+     * @return \DieZeeL\Database\SphinxConnection\SphinxConnection
      */
     public function getConnection()
     {

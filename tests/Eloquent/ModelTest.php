@@ -1,8 +1,8 @@
 <?php
-namespace Fobia\Database\SphinxConnection\Test\Eloquent;
+namespace DieZeeL\Database\SphinxConnection\Test\Eloquent;
 
-use Fobia\Database\SphinxConnection\Eloquent\Model;
-use Fobia\Database\SphinxConnection\Test\TestCase;
+use DieZeeL\Database\SphinxConnection\Eloquent\Model;
+use DieZeeL\Database\SphinxConnection\Test\TestCase;
 
 class ModelMock extends Model
 {
@@ -55,7 +55,7 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Model::getMvaAttribute
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Model::getMvaAttribute
      */
     public function testGetMvaAttribute()
     {
@@ -63,7 +63,7 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Model::asMva
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Model::asMva
      */
     public function testAsMva()
     {
@@ -77,7 +77,7 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider asMvaDataProvider
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Model::asMva
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Model::asMva
      */
     public function testAsMva2($val, $expected)
     {

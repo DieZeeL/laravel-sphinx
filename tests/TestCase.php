@@ -1,8 +1,8 @@
 <?php
 
-namespace Fobia\Database\SphinxConnection\Test;
+namespace DieZeeL\Database\SphinxConnection\Test;
 
-use Fobia\Database\SphinxConnection\SphinxConnection;
+use DieZeeL\Database\SphinxConnection\SphinxConnection;
 use Symfony\Component\Filesystem\Filesystem;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -97,7 +97,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            \Fobia\Database\SphinxConnection\SphinxServiceProvider::class,
+            \DieZeeL\Database\SphinxConnection\SphinxServiceProvider::class,
         ];
     }
 

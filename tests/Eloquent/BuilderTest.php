@@ -1,9 +1,9 @@
 <?php
 
-namespace Fobia\Database\SphinxConnection\Test\Eloquent;
+namespace DieZeeL\Database\SphinxConnection\Test\Eloquent;
 
-use Fobia\Database\SphinxConnection\Test\ModelRt;
-use Fobia\Database\SphinxConnection\Test\TestCase;
+use DieZeeL\Database\SphinxConnection\Test\ModelRt;
+use DieZeeL\Database\SphinxConnection\Test\TestCase;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
@@ -33,7 +33,7 @@ class BuilderTest extends TestCase
 
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Builder::paginate
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Builder::paginate
      */
     public function testPaginate()
     {
@@ -44,7 +44,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Builder::getCountForPagination
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Builder::getCountForPagination
      */
     public function testGetCountForPagination()
     {

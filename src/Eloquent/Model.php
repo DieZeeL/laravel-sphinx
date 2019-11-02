@@ -6,19 +6,19 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection\Eloquent;
+namespace DieZeeL\Database\SphinxConnection\Eloquent;
 
-use Fobia\Database\SphinxConnection\Eloquent\Query\Builder as QueryBuilder;
-use Fobia\Database\SphinxConnection\Eloquent\Query\Grammar as QueryGrammar;
+use DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder as QueryBuilder;
+use DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar as QueryGrammar;
 
 /**
  * App\Lib\Database\Eloquent\Model
  *
- * @method static \Fobia\Database\SphinxConnection\Eloquent\Query\Builder match($column, $value = null, $half = false)   Созвучный поиск.
- * @method static \Fobia\Database\SphinxConnection\Eloquent\Query\Builder withinGroupOrderBy($column, $asc = 'ASC')  Конструкция [WITHIN GROUP ORDER BY].
- * @method static \Fobia\Database\SphinxConnection\Eloquent\Query\Builder whereMulti($column, $operator, $values) равенство в список.
- * @method static \Fobia\Database\SphinxConnection\Eloquent\Query\Builder option($name, $value) Опции запроса [OPTION].
- * @method static \Fobia\Database\SphinxConnection\Eloquent\Query\Builder facet($callback) Конструкция запроса [FACET].
+ * @method static \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder match($column, $value = null, $half = false)   Созвучный поиск.
+ * @method static \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder withinGroupOrderBy($column, $asc = 'ASC')  Конструкция [WITHIN GROUP ORDER BY].
+ * @method static \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder whereMulti($column, $operator, $values) равенство в список.
+ * @method static \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder option($name, $value) Опции запроса [OPTION].
+ * @method static \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder facet($callback) Конструкция запроса [FACET].
  *
  * @author     Dmitriy Tyurin <fobia3d@gmail.com>
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin

@@ -1,8 +1,8 @@
 <?php
-namespace Fobia\Database\SphinxConnection\Test\Eloquent\Query;
+namespace DieZeeL\Database\SphinxConnection\Test\Eloquent\Query;
 
-use Fobia\Database\SphinxConnection\Eloquent\Query\Grammar;
-use Fobia\Database\SphinxConnection\Test\TestCase;
+use DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar;
+use DieZeeL\Database\SphinxConnection\Test\TestCase;
 
 class GrammarTest extends TestCase
 {
@@ -22,7 +22,7 @@ class GrammarTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar::wrap
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar::wrap
      */
     public function testWrap()
     {
@@ -43,7 +43,7 @@ class GrammarTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar::wrapValue
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar::wrapValue
      */
     public function testWrapValue()
     {
@@ -53,7 +53,7 @@ class GrammarTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar::wrapValue2
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar::wrapValue2
      */
     public function testWrapValue2()
     {
@@ -65,7 +65,7 @@ class GrammarTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar::parameter
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar::parameter
      */
     public function testParameter()
     {

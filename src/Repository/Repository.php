@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection;
+namespace DieZeeL\Database\SphinxConnection;
 
 use Illuminate\Support\Facades\Config;
 use Prettus\Repository\Eloquent\BaseRepository;

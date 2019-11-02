@@ -1,8 +1,8 @@
 <?php
 
-namespace Fobia\Database\SphinxConnection\Test\Eloquent\Query;
+namespace DieZeeL\Database\SphinxConnection\Test\Eloquent\Query;
 
-use Fobia\Database\SphinxConnection\Test\ModelRt;
+use DieZeeL\Database\SphinxConnection\Test\ModelRt;
 use Illuminate\Database\Eloquent\Collection;
 
 class BuilderModelTest extends BuilderTest

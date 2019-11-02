@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection;
+namespace DieZeeL\Database\SphinxConnection;
 
 use Closure;
 use Foolz\SphinxQL\Facet;
@@ -23,12 +23,12 @@ use Illuminate\Database\MySqlConnection;
 class SphinxConnection extends MySqlConnection
 {
     /**
-     * @var \Fobia\Database\SphinxConnection\SphinxQLDriversConnection
+     * @var \DieZeeL\Database\SphinxConnection\SphinxQLDriversConnection
      */
     protected $sphinxQLConnection;
 
     /**
-     * @return \Fobia\Database\SphinxConnection\SphinxQLDriversConnection
+     * @return \DieZeeL\Database\SphinxConnection\SphinxQLDriversConnection
      */
     public function getSphinxQLDriversConnection()
     {
@@ -77,21 +77,21 @@ class SphinxConnection extends MySqlConnection
     /**
      * Get the default query grammar instance.
      *
-     * @return \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar
+     * @return \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
-        return new \Fobia\Database\SphinxConnection\Eloquent\Query\Grammar();
+        return new \DieZeeL\Database\SphinxConnection\Eloquent\Query\Grammar();
     }
 
     /**
      * Get a new query builder instance.
      *
-     * @return \Fobia\Database\SphinxConnection\Eloquent\Query\Builder
+     * @return \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder
      */
     public function query()
     {
-        return new \Fobia\Database\SphinxConnection\Eloquent\Query\Builder(
+        return new \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder(
             $this,
             $this->getQueryGrammar(),
             $this->getPostProcessor()

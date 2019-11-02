@@ -23,7 +23,7 @@ by adding it as a dependency to your project's composer.json file.
 ```json
 {
     "require": {
-        "fobia/laravel-sphinx": "*"
+        "diezeel/laravel-sphinx": "*"
     }
 }
 ```
@@ -36,7 +36,7 @@ for more detailed installation and usage instructions.
 After updating composer, add the ServiceProvider to the providers array in config/app.php
 
 ```php
-Fobia\Database\SphinxConnection\SphinxServiceProvider::class,
+DieZeeL\Database\SphinxConnection\SphinxServiceProvider::class,
 ```
 
 Finally you can just add `Sphinx Connection` to the database array in config/database.php 
@@ -66,7 +66,7 @@ $users = $db->table('rt')->where('votes', '>', 100)->get();
 **Using The Eloquent ORM**
 
 ```php
-class Product extends \Fobia\Database\SphinxConnection\Eloquent\Model {} 
+class Product extends \DieZeeL\Database\SphinxConnection\Eloquent\Model {} 
 
 $product = Product::find(1);
 
@@ -80,7 +80,7 @@ For the results of the column `attr_multi` can choose the format, which is conve
 The values of `'(1, 2, 3)'` for column type `attr_multi` converted to an array `[1, 2, 3]` 
 
 ```php
-class Product extends \Fobia\Database\SphinxConnection\Eloquent\Model 
+class Product extends \DieZeeL\Database\SphinxConnection\Eloquent\Model 
 {
     protected $casts = [
         'tags' => 'mva',

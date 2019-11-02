@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection;
+namespace DieZeeL\Database\SphinxConnection;
 
 use Foolz\SphinxQL\Drivers\Pdo\Connection as ConnectionBase;
 

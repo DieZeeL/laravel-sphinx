@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection\Eloquent\Query;
+namespace DieZeeL\Database\SphinxConnection\Eloquent\Query;
 
 use Foolz\SphinxQL\Facet;
 use Foolz\SphinxQL\Match;

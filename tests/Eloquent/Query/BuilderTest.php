@@ -1,8 +1,8 @@
 <?php
-namespace Fobia\Database\SphinxConnection\Test\Eloquent\Query;
+namespace DieZeeL\Database\SphinxConnection\Test\Eloquent\Query;
 
-use Fobia\Database\SphinxConnection\Eloquent\Query\Builder;
-use Fobia\Database\SphinxConnection\Test\TestCase;
+use DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder;
+use DieZeeL\Database\SphinxConnection\Test\TestCase;
 use Foolz\SphinxQL\Facet;
 use Foolz\SphinxQL\Match;
 
@@ -85,7 +85,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::toSql
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::toSql
      */
     public function testToSql()
     {
@@ -125,7 +125,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::replace
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::replace
      */
     public function testInsert()
     {
@@ -196,7 +196,7 @@ class BuilderTest extends TestCase
 
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::replace
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::replace
      */
     public function testReplace()
     {
@@ -217,7 +217,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::update
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::update
      */
     public function testUpdate()
     {
@@ -254,7 +254,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::whereMulti
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::whereMulti
      * @todo   Implement testWhereMulti().
      */
     public function testWhereMulti()
@@ -288,7 +288,7 @@ class BuilderTest extends TestCase
 
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::option
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::option
      */
     public function testOption()
     {
@@ -309,7 +309,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::option
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::option
      */
     public function testOption2()
     {
@@ -321,7 +321,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::withinGroupOrderBy
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::withinGroupOrderBy
      */
     public function testWithinGroupOrderBy()
     {
@@ -334,7 +334,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::withinGroupOrderBy
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::withinGroupOrderBy
      * @expectedException \RuntimeException
      */
     public function testWithinGroupOrderByException()
@@ -344,7 +344,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::match
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::match
      */
     public function testMatch()
     {
@@ -370,7 +370,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::facet
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::facet
      */
     public function testFacet()
     {
@@ -391,7 +391,7 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @covers \Fobia\Database\SphinxConnection\Eloquent\Query\Builder::filterParamsUint
+     * @covers \DieZeeL\Database\SphinxConnection\Eloquent\Query\Builder::filterParamsUint
      */
     public function testFilterParamsUint()
     {

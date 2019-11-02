@@ -6,11 +6,11 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection\Test;
+namespace DieZeeL\Database\SphinxConnection\Test;
 
 
-use Fobia\Database\SphinxConnection\SphinxConnection;
-use Fobia\Database\SphinxConnection\SphinxQLDriversConnection;
+use DieZeeL\Database\SphinxConnection\SphinxConnection;
+use DieZeeL\Database\SphinxConnection\SphinxQLDriversConnection;
 use Foolz\SphinxQL\Helper;
 use Illuminate\Database\Connection;
 

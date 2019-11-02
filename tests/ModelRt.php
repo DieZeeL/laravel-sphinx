@@ -6,9 +6,9 @@
  * @copyright  Copyright (c) 2016 Dmitriy Tyurin
  */
 
-namespace Fobia\Database\SphinxConnection\Test;
+namespace DieZeeL\Database\SphinxConnection\Test;
 
-use Fobia\Database\SphinxConnection\Eloquent\Model as BaseModel;
+use DieZeeL\Database\SphinxConnection\Eloquent\Model as BaseModel;
 
 
 /**

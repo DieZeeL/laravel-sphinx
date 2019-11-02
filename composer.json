@@ -1,5 +1,5 @@
 {
-    "name": "fobia/laravel-sphinx",
+    "name": "diezeel/laravel-sphinx",
     "description": "A Laravel query builder for SphinxQL",
     "keywords": ["laravel", "database", "sphinxql", "sphinx", "SQL", "query builder", "sphinx eloquent"],
     "license": "MIT",
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Fobia\\Database\\SphinxConnection\\": "src/"
+            "DieZeeL\\Database\\SphinxConnection\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Fobia\\Database\\SphinxConnection\\Test\\": "tests/"
+            "DieZeeL\\Database\\SphinxConnection\\Test\\": "tests/"
         }
     }
 }
